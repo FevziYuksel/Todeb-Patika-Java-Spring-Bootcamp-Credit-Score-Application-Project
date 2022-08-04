@@ -2,6 +2,7 @@ package com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.res
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity.CreditApplication;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,6 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
-@Builder
 @RequiredArgsConstructor
 public class CustomerResponseDto {
 

@@ -9,5 +9,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Optional<Customer> findByNationalId(String nationalId);
 
+    boolean existsCustomerByNationalId(String nationalId);
+
     void deleteCustomerByNationalId(String nationalId );
 }
