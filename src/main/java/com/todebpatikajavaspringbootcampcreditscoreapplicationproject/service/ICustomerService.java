@@ -9,12 +9,12 @@ import java.util.List;
 public interface ICustomerService {
 
 
-    List<CustomerResponseDto> getAllCustomers();
-    CustomerResponseDto getCustomerByNationalId(String nationalId);
+    List<Customer> getAllCustomers();
+    Customer getCustomerByNationalId(String nationalId);
 
-    CustomerResponseDto createCustomer(CustomerRequestDto customerDto);
+    Customer createCustomer(Customer customer);
 
-    CustomerResponseDto updateCustomerByNationalId(String nationalId, CustomerRequestDto customerDto );
+    Customer updateCustomerByNationalId(Customer customer );
 
     void deleteCustomerByNationalId(String nationalId);
 }
