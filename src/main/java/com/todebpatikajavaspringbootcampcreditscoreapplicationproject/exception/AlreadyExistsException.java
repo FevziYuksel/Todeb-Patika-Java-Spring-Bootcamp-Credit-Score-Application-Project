@@ -12,7 +12,7 @@ public class AlreadyExistsException extends RuntimeException {
     private String details;
 
     public AlreadyExistsException(String entityName, String nationalId, String cause) {
-        super(String.format("Related %s by national ID %s already exists with : [%s]",entityName,cause,nationalId) );
+        super(String.format("Related %s by national ID %s already exists with : [%s]",entityName,nationalId,cause) );
         details = super.getLocalizedMessage();
 
     }
