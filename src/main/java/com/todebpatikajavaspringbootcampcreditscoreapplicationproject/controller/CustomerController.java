@@ -1,5 +1,8 @@
 package com.todebpatikajavaspringbootcampcreditscoreapplicationproject.controller;
 
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity.Customer;
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.mapper.CustomerRequestMapper;
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.mapper.CustomerResponseMapper;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.requestDto.CustomerRequestDto;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.responseDto.CustomerResponseDto;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.ICustomerService;
@@ -18,35 +21,46 @@ import java.util.List;
 public class CustomerController {
 
     private final ICustomerService customerService;
+    private final CustomerRequestMapper customerRequestMapper;
+    private final CustomerResponseMapper customerResponseMapper;
 
     @GetMapping
     public
     ResponseEntity<List<CustomerResponseDto>> getAllCustomers() {
-        List<CustomerResponseDto> allCustomers = customerService.getAllCustomers();
+        List<Customer> allCustomers = customerService.getAllCustomers();
 
-        return ResponseEntity.status(HttpStatus.OK).body(allCustomers);
+        return ResponseEntity.ok(customerResponseMapper.toDTO(allCustomers));
     }
     @GetMapping("/{nationalId}")
     public ResponseEntity<CustomerResponseDto> getCustomerByNationalId(@PathVariable String nationalId) {
-        CustomerResponseDto customerByNationalId = customerService.getCustomerByNationalId(nationalId);
-        
-        return ResponseEntity.status(HttpStatus.OK).body(customerByNationalId);
-    }
+        Customer customerByNationalId = customerService.getCustomerByNationalId(nationalId);
 
-    @PostMapping //Return CustomerResponse ????
-    public ResponseEntity<String> createCustomer(@Valid @RequestBody CustomerRequestDto customerDto) { //Valid functionality ????
-        CustomerResponseDto customer = customerService.createCustomer(customerDto);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Customer by National ID : %s has been created.",customer.getNationalId()));
+        return ResponseEntity.ok(customerResponseMapper.toDTO(customerByNationalId));
+    }
+    /**Valid functionality ????
+     Return CustomerResponse ????
+     Throw exception from controller as much as possible ??
+     Map DTOs on Controller
+     Service bussiness logic
+     */
+    @PostMapping
+    public ResponseEntity<String> createCustomer(@Valid @RequestBody CustomerRequestDto customerDto) {
+        Customer customer = customerService.createCustomer(customerRequestMapper.toEntity(customerDto));
+        return ResponseEntity.ok(
+                String.format("Customer by National ID : %s has been successfully created.",customer.getNationalId())
+        );
 
     }
-    @PutMapping("/{nationalId}")
-    public ResponseEntity<CustomerResponseDto> updateCustomerByNationalId(@PathVariable String nationalId ,@Valid @RequestBody CustomerRequestDto customerDto ){
-        CustomerResponseDto customerResponseDto = customerService.updateCustomerByNationalId(nationalId, customerDto);
-        return ResponseEntity.status(HttpStatus.OK).body(customerResponseDto);
+    @PutMapping
+    public ResponseEntity<CustomerResponseDto> updateCustomerByNationalId(@Valid @RequestBody CustomerRequestDto customerDto ){
+        Customer newCustomer = customerService.updateCustomerByNationalId(customerRequestMapper.toEntity(customerDto));
+        return ResponseEntity.ok(customerResponseMapper.toDTO(newCustomer));
     }
     @DeleteMapping("/{nationalId}")
     public ResponseEntity<String> deleteCustomerByNationalId(@PathVariable String nationalId){
         customerService.deleteCustomerByNationalId(nationalId);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Customer by National ID : %s has been deleted.",nationalId));
+        return ResponseEntity.ok(
+                String.format("Customer by National ID : %s has been successfully deleted.",nationalId)
+        );
     }
 }
