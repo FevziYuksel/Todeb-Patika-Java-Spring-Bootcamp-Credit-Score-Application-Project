@@ -3,16 +3,13 @@ package com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.i
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.exception.AlreadyExistsException;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.exception.NotFoundException;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity.Customer;
-import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.mapper.CustomerRequestMapper;
-import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.mapper.CustomerResponseMapper;
-import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.requestDto.CustomerRequestDto;
-import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.responseDto.CustomerResponseDto;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.repository.CustomerRepository;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.ICustomerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,29 +20,23 @@ public class CustomerService implements ICustomerService {
 
     private final CustomerRepository customerRepository;
 
-    private final CustomerRequestMapper customerRequestMapper;
 
-    private final CustomerResponseMapper customerResponseMapper;
 
-    //Pagination ?
+    //Pagination ? //Carry empty check to controller
     @Override
-    public List<CustomerResponseDto> getAllCustomers() {
+    public List<Customer> getAllCustomers() {
         List<Customer> customerList = customerRepository.findAll();
         if(customerList.isEmpty()){
             log.error("Customer table is empty");
+            log.info("....awdaw...awdaw..wad..wad.ad"); //SMS Message
             throw new NotFoundException("customers","Customer table is empty" );
         }
-        return customerResponseMapper.toDTO(customerList);
+        return customerList;
     }
 
     @Override
-    public CustomerResponseDto getCustomerByNationalId(String nationalId) {
+    public Customer getCustomerByNationalId(String nationalId) {
 
-        Customer customerByNationalId = getCustomerEntityByNationalId(nationalId);
-
-        return customerResponseMapper.toDTO(customerByNationalId);
-    }
-    private Customer getCustomerEntityByNationalId(String nationalId){
 
         Optional<Customer> optionalCustomer = customerRepository.findByNationalId(nationalId);
 
@@ -56,16 +47,9 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public CustomerResponseDto createCustomer(CustomerRequestDto customerDto) {
-        Customer customer = customerRequestMapper.toEntity(customerDto);
-
-        Customer customerFromEntity = createCustomerFromEntity(customer);
-
-        return customerResponseMapper.toDTO(customerFromEntity);
-    }
-    private Customer createCustomerFromEntity(Customer customer){
+    public Customer createCustomer(Customer customer) {
         Optional<Customer> optionalCustomer = customerRepository.findByNationalId(customer.getNationalId());
-
+        //Redundant validation is enough for controller
         optionalCustomer.ifPresent(
                 dummy -> {
                     log.error("Customer by national ID : " + customer.getNationalId() + "already exists");
@@ -74,22 +58,26 @@ public class CustomerService implements ICustomerService {
         return customerRepository.save(customer);
     }
 
+
     @Override
-    public CustomerResponseDto updateCustomerByNationalId(String nationalId, CustomerRequestDto customerDto) {
+    public Customer updateCustomerByNationalId(Customer updatedCustomer) {
+        getCustomerByNationalId(updatedCustomer.getNationalId());
 
-        Customer newCustomer = customerRequestMapper.toEntity(customerDto);
-
-        Customer oldCustomer = getCustomerEntityByNationalId(nationalId);
-
-        newCustomer.setId(oldCustomer.getId());
-
-        return customerResponseMapper.toDTO(createCustomerFromEntity(newCustomer));
+        return customerRepository.save(updatedCustomer);
 
     }
+
+//    @Transactional
+//    @Override
+//    public void deleteCustomerByNationalId(String nationalId) {
+//        getCustomerByNationalId(nationalId);
+//       customerRepository.deleteCustomerByNationalId(nationalId);
+//    }
 
     @Override
     public void deleteCustomerByNationalId(String nationalId) {
-        getCustomerByNationalId(nationalId);
-       customerRepository.deleteCustomerByNationalId(nationalId);
+        Customer customerByNationalId = getCustomerByNationalId(nationalId);
+        customerRepository.delete(customerByNationalId);
     }
 }
+
