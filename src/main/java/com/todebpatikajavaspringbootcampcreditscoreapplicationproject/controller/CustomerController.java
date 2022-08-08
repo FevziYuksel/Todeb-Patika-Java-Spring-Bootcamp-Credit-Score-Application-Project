@@ -38,17 +38,19 @@ public class CustomerController {
         return ResponseEntity.ok(customerResponseMapper.toDTO(customerByNationalId));
     }
     /**Valid functionality ????
+     * Create best way??
      Return CustomerResponse ????
      Throw exception from controller as much as possible ??
      Map DTOs on Controller
-     Service bussiness logic
+     Service business logic
      */
     @PostMapping
-    public ResponseEntity<String> createCustomer(@Valid @RequestBody CustomerRequestDto customerDto) {
+    public ResponseEntity<Customer> createCustomer(@Valid @RequestBody CustomerRequestDto customerDto) {
         Customer customer = customerService.createCustomer(customerRequestMapper.toEntity(customerDto));
-        return ResponseEntity.ok(
-                String.format("Customer by National ID : %s has been successfully created.",customer.getNationalId())
-        );
+//        return ResponseEntity.ok(
+//                String.format("Customer by National ID : %s has been successfully created.",customer.getNationalId())
+//        );
+        return ResponseEntity.status(HttpStatus.CREATED).body(customer);
 
     }
     @PutMapping

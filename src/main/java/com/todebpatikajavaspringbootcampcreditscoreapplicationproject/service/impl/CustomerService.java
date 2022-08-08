@@ -4,6 +4,7 @@ import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.exception.
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.exception.NotFoundException;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity.Customer;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.repository.CustomerRepository;
+
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.ICustomerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,12 +14,22 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.ICreditScoreService.*;
+
+
 @Slf4j
 @AllArgsConstructor
 @Service
 public class CustomerService implements ICustomerService {
 
     private final CustomerRepository customerRepository;
+
+    private final CreditScoreService creditScoreService;
+
+//    private Customer randomizeCreditScore(Customer customer){
+//        Random random = new Random();
+//
+//    }
 
 
 
@@ -55,7 +66,8 @@ public class CustomerService implements ICustomerService {
                     log.error("Customer by national ID : " + customer.getNationalId() + "already exists");
                     throw new AlreadyExistsException("Customer",customer.getNationalId(),"Customer already exists");
                 });
-        return customerRepository.save(customer);
+
+        return customerRepository.save(creditScoreService.setCustomerCreditScore(customer));
     }
 
 
