@@ -12,6 +12,6 @@ public enum CreditResult {
     REJECTED(false),
     APPROVED(true);
 
-    private final Boolean isActive;
+    private final Boolean isApproved;
 
 }

@@ -9,8 +9,9 @@ import lombok.Getter;
 public enum CreditLimit {
 
     HIGHER(20000.00,5000.00,1000),
-    LOWER(10000.00,5000.00,500),
-    NULL(0.00,0.00,0);
+    LOWER(10000.00,5000.00,500);
+
+//    ZERO(0.00,0.00,0);
 
 //    MULTIPLIER(null,null,null,4);
 
