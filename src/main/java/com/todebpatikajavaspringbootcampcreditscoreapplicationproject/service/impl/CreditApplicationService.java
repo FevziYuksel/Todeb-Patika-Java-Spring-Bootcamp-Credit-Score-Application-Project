@@ -1,5 +1,6 @@
 package com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.impl;
 
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.exception.AlreadyExistsException;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.exception.NotFoundException;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity.Credit;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity.CreditApplication;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,7 +28,15 @@ public class CreditApplicationService implements ICreditApplicationService {
 
     private final CreditService creditService;
 
+    private final NotificationService notificationService;
+
     private final static int CREDIT_MULTIPLIER = 4;
+    private final static Double INCOME_LIMIT = CreditLimit.HIGHER.getIncomeLimit();
+    private final static Double ZERO_CREDIT_LIMIT = 0.00;
+    private final static Double LOWER_CREDIT_LIMIT = CreditLimit.LOWER.getCreditLimit();
+    private final static Double HIGHER_CREDIT_LIMIT = CreditLimit.HIGHER.getCreditLimit();
+    private final static Integer LOWER_CREDIT_SCORE_LIMIT = CreditLimit.LOWER.getCreditScoreLimit();
+    private final static Integer HIGHER_CREDIT_SCORE_LIMIT = CreditLimit.HIGHER.getCreditScoreLimit();
 
 
 //    WRONG
@@ -52,7 +62,7 @@ public class CreditApplicationService implements ICreditApplicationService {
 
         if (creditApplications.isEmpty()) {
             log.error("The Customer by national id " + nationalId + "don't have any applications");
-            throw new NotFoundException("Credit Applications", "The Customer by national id " + nationalId + "don't have any applications");
+            throw new NotFoundException(CreditApplication.class.getName(), "The Customer by national id " + nationalId + "don't have any applications");
         }
         return creditApplications;
 
@@ -68,7 +78,7 @@ public class CreditApplicationService implements ICreditApplicationService {
                         () ->
 //                            log.error("The Customer by national id " + nationalId + "don't have any applications");
                                 new NotFoundException(
-                                        "Credit Applications", "The Customer by national id " + nationalId + "don't have any active application")
+                                        CreditApplication.class.getName(), "The Customer by national id " + nationalId + "don't have any active application")
                 );
 
 
@@ -83,78 +93,90 @@ public class CreditApplicationService implements ICreditApplicationService {
         //Only one active application per Customer
 
         //Set customer applications
-        return calculateCreditLimit(customerService.getCustomerByNationalId(nationalId));
+        CreditApplication creditApplication = new CreditApplication();
+        Customer customer = customerService.getCustomerByNationalId(nationalId);
+
+        if(hasAnyActiveApplication(customer)){
+            String message = "There is an active application\nIt can only be updated ";
+            log.error(message);
+            throw new AlreadyExistsException(CreditApplication.class.getName(),nationalId,message);
+        }
+        calculateCreditLimit(customer, creditApplication);
+        creditApplication.setCustomer(customer);
+
+        return creditApplicationRepository.save(creditApplication);
+
+
 
     }
+    private boolean hasAnyActiveApplication(Customer customer){
+        return customer.getCreditApplications().stream().anyMatch(creditApplication -> creditApplication.getApplicationStatus().getIsActive());
 
-
+    }
 
     //Split enums
     //Split them to isThis etc or setThis etc ????
     //Static enum variable inside
     //Create credit later switch application statue or keep both active to check whether user has any application
-    private CreditApplication calculateCreditLimit(Customer customer) {
-        CreditApplication creditApplication = new CreditApplication();
-        Integer creditScore = customer.getCreditScore();
-        Double monthlyIncome = customer.getMonthlyIncome();
+    private void calculateCreditLimit(Customer customer, CreditApplication creditApplication) {
+
+        creditApplication.setApplicationStatus(ApplicationStatus.ACTIVE);
+
+        Integer customerCreditScore = customer.getCreditScore();
+        Double customerMonthlyIncome = customer.getMonthlyIncome();
+
+//        boolean creditScoreCondition =
+
 
         //Do it in one time
         /**
          * 1-Kredi skoru 500’ün altında ise kullanıcı reddedilir. (Kredi sonucu: Red)
          */
-        if (creditScore < CreditLimit.LOWER.getCreditLimit()) {
-            creditApplication.setCreditResult(CreditResult.REJECTED);
-            creditApplication.setCreditLimit(CreditLimit.NULL.getCreditLimit()); //Keep it null or value 0 ???
-            creditApplication.setApplicationStatus(ApplicationStatus.PASSIVE);
-            //Rejection notification SMS
-
+        if (customerCreditScore < LOWER_CREDIT_SCORE_LIMIT) {
+            creditApplication.setCreditLimit(ZERO_CREDIT_LIMIT); //Keep it null or value 0 ???
         }
         /**
          * 2- Kredi skoru 500puan ile 1000 puan arasında ise ve aylık geliri 5000 TL’nin altında ise
          * kullanıcının kredi başvurusu onaylanır ve kullanıcıya 10.000 TL limit atanır. (Kredi
          * Sonucu: Onay)
          * */
-        else if (creditScore > CreditLimit.LOWER.getCreditScoreLimit()
-                && creditScore < CreditLimit.HIGHER.getCreditScoreLimit()
-                && monthlyIncome < CreditLimit.HIGHER.getIncomeLimit()) {
-            creditApplication.setCreditResult(CreditResult.APPROVED);
-            creditApplication.setCreditLimit(CreditLimit.LOWER.getCreditLimit());
-            creditApplication.setApplicationStatus(ApplicationStatus.ACTIVE); //Carry to givenCredits
-
-            //Approval notification SMS
+        else if (customerCreditScore > LOWER_CREDIT_SCORE_LIMIT && customerCreditScore < HIGHER_CREDIT_SCORE_LIMIT && customerMonthlyIncome < INCOME_LIMIT) {
+            creditApplication.setCreditLimit(LOWER_CREDIT_LIMIT);
         }
         /**
          * 3- Kredi skoru 500 puan ile 1000 puan arasında ise ve aylık geliri 5000 TL’nin üstünde ise
          * kullanıcının kredi başvurusu onaylanır ve kullanıcıya 20.000 TL limit atanır. (Kredi
          * Sonucu: Onay)*/
-        else if (creditScore > CreditLimit.LOWER.getCreditScoreLimit()
-                && creditScore < CreditLimit.HIGHER.getCreditScoreLimit()
-                && monthlyIncome > CreditLimit.HIGHER.getIncomeLimit()) {
-            creditApplication.setCreditResult(CreditResult.APPROVED);
-            creditApplication.setCreditLimit(CreditLimit.LOWER.getCreditLimit());
-            creditApplication.setApplicationStatus(ApplicationStatus.ACTIVE); //Carry to givenCredits
-
-
-            //Approval notification SMS
-            
+        else if (customerCreditScore > LOWER_CREDIT_SCORE_LIMIT && customerCreditScore < HIGHER_CREDIT_SCORE_LIMIT && customerMonthlyIncome > INCOME_LIMIT) {
+            creditApplication.setCreditLimit(HIGHER_CREDIT_LIMIT);
         }
         /**
          * 4- Kredi skoru 1000 puana eşit veya üzerinde ise kullanıcıya AYLIK GELİR BİLGİSİ * KREDİ LİMİT ÇARPANI kadar limit atanır. (Kredi Sonucu: Onay)
          */
-        else if (creditScore >= CreditLimit.HIGHER.getCreditScoreLimit()) {
-            creditApplication.setCreditResult(CreditResult.APPROVED);
-            creditApplication.setCreditLimit(customer.getMonthlyIncome() * CREDIT_MULTIPLIER);
-            creditApplication.setApplicationStatus(ApplicationStatus.ACTIVE); //Carry to givenCredits
-
-            //Approval notification SMS
+        else if (customerCreditScore >= HIGHER_CREDIT_SCORE_LIMIT) {
+            creditApplication.setCreditLimit(customerMonthlyIncome * CREDIT_MULTIPLIER);
         }
-        return creditApplication;
+        if(Objects.equals(creditApplication.getCreditLimit(), LOWER_CREDIT_LIMIT))
+            creditApplication.setApplicationStatus(ApplicationStatus.PASSIVE);
+
+
     }
-    //SOOOOOOOOOOOOOOOOR
+
+
+    //Approve then create credits for Admin role
     @Override
-    public CreditApplication approveCreditApplication(String nationalId) {
-        Credit credit = creditService.createCredit(getActiveCreditApplicationByCustomer(nationalId));
-        return null;
+    public void approveCreditApplication(String nationalId) {
+        CreditApplication creditApplication = getActiveCreditApplicationByCustomer(nationalId);
+        creditApplication.setCreditResult(CreditResult.APPROVED);
+        Credit credit = creditService.createCredit(creditApplication);
+        //Send SMS service
+//        return null;
+    }
+
+    @Override
+    public void rejectCreditApplication(String nationalId) {
+        getActiveCreditApplicationByCustomer(nationalId).setCreditResult(CreditResult.REJECTED);
+//        return null;
     }
 
     @Override
