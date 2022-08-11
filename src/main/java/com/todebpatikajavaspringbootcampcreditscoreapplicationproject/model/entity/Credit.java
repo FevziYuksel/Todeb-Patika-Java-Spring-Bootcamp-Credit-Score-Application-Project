@@ -3,7 +3,7 @@ package com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.ent
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.enums.Status;
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.enums.ApplicationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "approved_credit")
-public class ApprovedCredit implements Serializable {
+public class Credit implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,11 +36,11 @@ public class ApprovedCredit implements Serializable {
 
 
     @Column(name = "credit_limit")
-    private Integer creditLimit;
+    private Double creditLimit;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "credit_status")
-    private Status creditStatus;
+    private ApplicationStatus creditStatus;
 
 
 
@@ -49,7 +49,6 @@ public class ApprovedCredit implements Serializable {
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_national_id",referencedColumnName = "national_id")
-//    @JoinColumn(name = "customer_national_id",referencedColumnName = "national_id")
     private Customer customer;
 
 }
