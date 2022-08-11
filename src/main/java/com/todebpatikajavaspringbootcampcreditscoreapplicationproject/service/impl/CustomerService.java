@@ -5,6 +5,7 @@ import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.exception.
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity.Customer;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.repository.CustomerRepository;
 
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.ICreditScoreService;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.ICustomerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +35,7 @@ public class CustomerService implements ICustomerService {
         if(customerList.isEmpty()){
             log.error("Customer table is empty");
             log.info("....awdaw...awdaw..wad..wad.ad"); //SMS Message
-            throw new NotFoundException("customers","Customer table is empty" );
+            throw new NotFoundException(Customer.class.getName(),"Customer table is empty" );
         }
         return customerList;
     }
@@ -47,7 +48,7 @@ public class CustomerService implements ICustomerService {
 
         return optionalCustomer.orElseThrow(() -> {
             log.error("Customer is not found by national ID : " + nationalId);
-            throw new NotFoundException("customer", "National ID hasn't been recorded yet ", nationalId);
+            throw new NotFoundException(Customer.class.getName(), "National ID hasn't been recorded yet ", nationalId);
         });
     }
 
@@ -58,7 +59,7 @@ public class CustomerService implements ICustomerService {
         optionalCustomer.ifPresent(
                 e -> {
                     log.error("Customer by national ID : " + customer.getNationalId() + "already exists");
-                    throw new AlreadyExistsException("Customer",customer.getNationalId(),"Customer already exists");
+                    throw new AlreadyExistsException(Customer.class.getName(),customer.getNationalId(),"Customer already exists");
                 });
         return customerRepository.save(creditScoreService.setCustomerCreditScore(customer));
     }

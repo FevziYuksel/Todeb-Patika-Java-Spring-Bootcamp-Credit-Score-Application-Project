@@ -5,7 +5,7 @@ import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.mapp
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.mapper.CustomerResponseMapper;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.requestDto.CustomerRequestDto;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.responseDto.CustomerResponseDto;
-import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.ICustomerService;
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.impl.CustomerService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,10 @@ import java.util.List;
 @RequestMapping("/v1/customer")
 public class CustomerController {
 
-    private final ICustomerService customerService;
+    private final CustomerService customerService;  //Interface vs Class
     private final CustomerRequestMapper customerRequestMapper;
     private final CustomerResponseMapper customerResponseMapper;
+
 
     @GetMapping
     public

@@ -12,12 +12,18 @@ public interface ICreditApplicationService {
 
     CreditApplication createCreditApplication (String nationalId); //createByNationalId
 
-    CreditApplication approveCreditApplication(String nationalId); //Change status field
 
-    void cancelCreditApplication (String nationalId); //cancelByNationalId;
+
+
 
 
     //Only allowed by Admin
+
+    void approveCreditApplication(String nationalId); //Change status field //Return credit
+
+    void rejectCreditApplication(String nationalId);
+    void cancelCreditApplication (String nationalId); //cancelByNationalId;
+
 //    void deleteCreditApplication(String nationalId );  //deleteByNationalId;
 
 
