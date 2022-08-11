@@ -7,11 +7,25 @@ import lombok.Getter;
 @Getter
 
 public enum CreditLimit {
-    LOWER(10000.00),
-    HIGHER(20000.00),
-    SPECIAL(0.00);
+
+    HIGHER(20000.00,5000.00,1000),
+    LOWER(10000.00,5000.00,500),
+    NULL(0.00,0.00,0);
+
+//    MULTIPLIER(null,null,null,4);
+
+
 
     private final Double creditLimit;
+
+    private final Double incomeLimit;
+
+    private final Integer creditScoreLimit;
+
+//    private final Integer creditMultiplier;
+
+
+
 
 
 

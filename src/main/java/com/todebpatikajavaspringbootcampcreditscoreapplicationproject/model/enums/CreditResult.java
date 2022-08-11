@@ -8,12 +8,10 @@ import lombok.Getter;
 @Getter
 public enum CreditResult {
 
-    NOT_RESULTED(0),
-    REJECTED(500),
-    APPROVED(1000);
+    NOT_RESULTED(null),
+    REJECTED(false),
+    APPROVED(true);
 
-    private final Integer creditScoreLimit;
-
-
+    private final Boolean isActive;
 
 }
