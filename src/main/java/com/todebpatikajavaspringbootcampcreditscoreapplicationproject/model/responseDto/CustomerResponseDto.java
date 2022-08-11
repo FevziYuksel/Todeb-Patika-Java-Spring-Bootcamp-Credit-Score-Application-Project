@@ -2,16 +2,14 @@ package com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.res
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity.CreditApplication;
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Data
@@ -21,20 +19,35 @@ public class CustomerResponseDto {
     private String nationalId;
 
 
-    private String firstname;
+    private String firstName;
 
 
-    private String lastname;
+    private String lastName;
+
+    @Min(100)
+    private Double monthlyIncome; //Big Decimal
 
 
-    private Double monthlyIncome;
+    private Integer creditScore;
+
+
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
+
+
+    private  Integer age;
 
 
     private String phoneNo;
 
-    private Integer creditScore ;
 
-//    @JsonIgnore
+    private String email;
+
+
     @OneToMany(mappedBy = "customer", cascade = CascadeType.MERGE)
     private List<CreditApplication> creditApplications;
+
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.MERGE)
+    private List<CreditApplication> approvedCredits;
 }
