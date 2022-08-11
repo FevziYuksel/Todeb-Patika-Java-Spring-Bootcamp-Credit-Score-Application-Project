@@ -2,9 +2,11 @@ package com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.i
 
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity.Customer;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.ICreditScoreService;
+import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
+@Service
 public class CreditScoreService implements ICreditScoreService {
 
 
