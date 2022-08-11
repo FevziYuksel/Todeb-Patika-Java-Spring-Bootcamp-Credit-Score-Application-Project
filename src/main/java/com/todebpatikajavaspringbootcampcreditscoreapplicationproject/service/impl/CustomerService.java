@@ -26,12 +26,6 @@ public class CustomerService implements ICustomerService {
 
     private final CreditScoreService creditScoreService;
 
-//    private Customer randomizeCreditScore(Customer customer){
-//        Random random = new Random();
-//
-//    }
-
-
 
     //Pagination ? //Carry empty check to controller
     @Override
@@ -62,11 +56,10 @@ public class CustomerService implements ICustomerService {
         Optional<Customer> optionalCustomer = customerRepository.findByNationalId(customer.getNationalId());
         //Redundant validation is enough for controller
         optionalCustomer.ifPresent(
-                dummy -> {
+                e -> {
                     log.error("Customer by national ID : " + customer.getNationalId() + "already exists");
                     throw new AlreadyExistsException("Customer",customer.getNationalId(),"Customer already exists");
                 });
-
         return customerRepository.save(creditScoreService.setCustomerCreditScore(customer));
     }
 
