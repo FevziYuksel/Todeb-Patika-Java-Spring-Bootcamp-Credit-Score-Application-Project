@@ -12,10 +12,10 @@ public class NotFoundException extends RuntimeException{
 
     private String details;
 
-//    public NotFoundException(String entityName, String nationalId, String cause ) {
-//        super(String.format("Related %s by national ID is %s not found with : [%s]",entityName,nationalId,cause) );
-//        details = super.getLocalizedMessage();
-//    }
+    public NotFoundException(String entityName, String nationalId, String cause ) {
+        super(String.format("Related %s by national ID is %s not found with : [%s]",entityName,nationalId,cause) );
+        details = super.getLocalizedMessage();
+    }
     public NotFoundException(String entityName, String cause) {
         super(String.format("Related %s is not found with : [%s]",entityName,cause));
         details = super.getLocalizedMessage();

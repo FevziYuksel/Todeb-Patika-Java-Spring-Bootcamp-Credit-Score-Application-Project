@@ -2,7 +2,8 @@ package com.todebpatikajavaspringbootcampcreditscoreapplicationproject.security;
 
 
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.exception.CustomJwtException;
-import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.enums.Role;
+
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

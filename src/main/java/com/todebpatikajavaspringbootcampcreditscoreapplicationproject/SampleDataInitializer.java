@@ -1,8 +1,10 @@
 package com.todebpatikajavaspringbootcampcreditscoreapplicationproject;
 
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity.Customer;
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity.Role;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity.User;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.repository.CustomerRepository;
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.repository.RoleRepository;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.repository.UserRepository;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.impl.UserService;
 import lombok.AllArgsConstructor;
@@ -16,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SampleDataInitializer implements ApplicationRunner {
 
-    private final CustomerRepository customerRepository;
+    private final RoleRepository roleRepository;
 
     private final UserRepository userRepository;
 
@@ -43,6 +45,20 @@ public class SampleDataInitializer implements ApplicationRunner {
         if (!userRepository.existsByUsername(sampleUser.getUsername())) {
             userService.signup(sampleUser, false);
         }
+
+        Role adminRole = new Role();
+        adminRole.setRoleName("ROLE_ADMIN");
+        Role clientRole = new Role();
+        clientRole.setRoleName("ROLE_CLIENT");
+
+        // Creating ADMIN & USER roles
+        if (!roleRepository.existsByRoleName(adminRole.getRoleName())) {
+            roleRepository.save(adminRole);
+        }
+        if (!roleRepository.existsByRoleName(clientRole.getRoleName())) {
+            roleRepository.save(clientRole);
+        }
+
 
     }
 

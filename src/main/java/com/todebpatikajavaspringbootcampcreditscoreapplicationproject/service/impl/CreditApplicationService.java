@@ -53,7 +53,7 @@ public class CreditApplicationService implements ICreditApplicationService {
     public CreditApplication getActiveCreditApplicationByCustomer(String nationalId) {
         return getAllCreditApplicationByCustomer(nationalId).stream().filter(
                         creditApplication -> creditApplication.getApplicationStatus().getIsActive()).findAny().orElseThrow(
-                        () -> new NotFoundException(CreditApplication.class.getSimpleName(), nationalId + "don't have any active application")
+                        () -> new NotFoundException(CreditApplication.class.getSimpleName(), nationalId ,"don't have any active application")
                 );
 //        return creditApplicationRepository.findCreditApplicationByNationalIdAndApplicationStatusIsActive(nationalId).orElseThrow(
 //                () -> new NotFoundException(CreditApplication.class.getName(), " by national id " + nationalId + "don't have any active application")
