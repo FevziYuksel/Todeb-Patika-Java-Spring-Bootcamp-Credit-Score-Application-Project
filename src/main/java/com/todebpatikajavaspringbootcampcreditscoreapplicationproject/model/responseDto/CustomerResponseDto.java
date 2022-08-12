@@ -43,11 +43,9 @@ public class CustomerResponseDto {
 
     private String email;
 
-
+    //REMOVE
     @OneToMany(mappedBy = "customer", cascade = CascadeType.MERGE)
     private List<CreditApplication> creditApplications;
 
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.MERGE)
-    private List<CreditApplication> approvedCredits;
 }

@@ -10,19 +10,17 @@ public interface ICreditApplicationService {
 
     CreditApplication getActiveCreditApplicationByCustomer (String nationalId); //checkCreditApplication //getByNationalId
 
-    CreditApplication createCreditApplication (String nationalId); //createByNationalId
-
-
-
-
-
-
     //Only allowed by Admin
+    CreditApplication createCreditApplication(String nationalId, CreditApplication creditApplication);
 
-    void approveCreditApplication(String nationalId); //Change status field //Return credit
+    CreditApplication updateCreditApplication(String nationalId,CreditApplication creditApplication);
 
-    void rejectCreditApplication(String nationalId);
-    void cancelCreditApplication (String nationalId); //cancelByNationalId;
+    CreditApplication cancelCreditApplication (String nationalId); //cancelByNationalId;
+
+//    String approveCreditApplication(String nationalId); //Change status field //Return credit
+//
+//    String rejectCreditApplication(String nationalId);
+
 
 //    void deleteCreditApplication(String nationalId );  //deleteByNationalId;
 

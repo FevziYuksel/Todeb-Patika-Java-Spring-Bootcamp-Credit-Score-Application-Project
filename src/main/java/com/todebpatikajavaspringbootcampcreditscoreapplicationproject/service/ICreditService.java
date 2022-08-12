@@ -7,7 +7,5 @@ public interface ICreditService {
 
     Credit createCredit(CreditApplication creditApplication);
 
-    Credit getCreditByCustomer(String NationalId);
-
 
 }
