@@ -1,17 +1,20 @@
 package com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -40,13 +43,16 @@ public class Customer implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
+    @CreationTimestamp
+    @JsonFormat( pattern = "dd-MM-yyyy" )
+    @Column(name="creation_date", updatable = false, nullable = false)
+    private LocalDate applicationDate;
+
     @Column(name = "monthly_income")
     @NotNull(message = "Income can not be null")
     @Min(100)
     private Double monthlyIncome; //Big Decimal
 
-
-    @Transient
     @Column(name = "credit_score")
     private Integer creditScore;
 
@@ -68,14 +74,9 @@ public class Customer implements Serializable {
     private String email;
 
 
-    //    @Transient
     @JsonIgnore
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<CreditApplication> creditApplications;
 
-    //    @Transient
-    @JsonIgnore
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.MERGE)
-    private List<CreditApplication> approvedCredits;
 
 }

@@ -10,15 +10,26 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
+@Validated
 @AllArgsConstructor
 @RestController
 @RequestMapping("/v1/customer")
 public class CustomerController {
+
+    /**Valid functionality ????
+     * Create best way??
+     Return CustomerResponse ????
+     Throw exception from controller as much as possible ??
+     Map DTOs on Controller
+     Service business logic
+     */
 
     private final CustomerService customerService;  //Interface vs Class
     private final CustomerRequestMapper customerRequestMapper;
@@ -33,25 +44,17 @@ public class CustomerController {
         return ResponseEntity.ok(customerResponseMapper.toDTO(allCustomers));
     }
     @GetMapping("/{nationalId}")
-    public ResponseEntity<CustomerResponseDto> getCustomerByNationalId(@PathVariable String nationalId) {
+    public ResponseEntity<CustomerResponseDto> getCustomerByNationalId(@PathVariable @Pattern(regexp = "[1-9][0-9]{10}") String nationalId) {
         Customer customerByNationalId = customerService.getCustomerByNationalId(nationalId);
 
         return ResponseEntity.ok(customerResponseMapper.toDTO(customerByNationalId));
     }
-    /**Valid functionality ????
-     * Create best way??
-     Return CustomerResponse ????
-     Throw exception from controller as much as possible ??
-     Map DTOs on Controller
-     Service business logic
-     */
+
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@Valid @RequestBody CustomerRequestDto customerDto) {
+    public ResponseEntity<CustomerResponseDto> createCustomer(@Valid @RequestBody CustomerRequestDto customerDto) {
         Customer customer = customerService.createCustomer(customerRequestMapper.toEntity(customerDto));
-//        return ResponseEntity.ok(
-//                String.format("Customer by National ID : %s has been successfully created.",customer.getNationalId())
-//        );
-        return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerResponseMapper.toDTO(customer));
 
     }
     @PutMapping
@@ -60,7 +63,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerResponseMapper.toDTO(newCustomer));
     }
     @DeleteMapping("/{nationalId}")
-    public ResponseEntity<String> deleteCustomerByNationalId(@PathVariable String nationalId){
+    public ResponseEntity<String> deleteCustomerByNationalId(@PathVariable @Pattern(regexp = "[1-9][0-9]{10}") String nationalId){
         customerService.deleteCustomerByNationalId(nationalId);
         return ResponseEntity.ok(
                 String.format("Customer by National ID : %s has been successfully deleted.",nationalId)

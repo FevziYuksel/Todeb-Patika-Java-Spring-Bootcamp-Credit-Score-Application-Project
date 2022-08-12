@@ -29,13 +29,13 @@ public class CustomerService implements ICustomerService {
 
 
     //Pagination ? //Carry empty check to controller
+    //Admin
     @Override
     public List<Customer> getAllCustomers() {
         List<Customer> customerList = customerRepository.findAll();
         if(customerList.isEmpty()){
             log.error("Customer table is empty");
-            log.info("....awdaw...awdaw..wad..wad.ad"); //SMS Message
-            throw new NotFoundException(Customer.class.getName(),"Customer table is empty" );
+            throw new NotFoundException(Customer.class.getSimpleName(),"Customer table is empty" );
         }
         return customerList;
     }
@@ -48,42 +48,36 @@ public class CustomerService implements ICustomerService {
 
         return optionalCustomer.orElseThrow(() -> {
             log.error("Customer is not found by national ID : " + nationalId);
-            throw new NotFoundException(Customer.class.getName(), "National ID hasn't been recorded yet ", nationalId);
+            throw new NotFoundException(Customer.class.getName(), nationalId + " hasn't been recorded yet " );
         });
     }
 
     @Override
     public Customer createCustomer(Customer customer) {
         Optional<Customer> optionalCustomer = customerRepository.findByNationalId(customer.getNationalId());
-        //Redundant validation is enough for controller
         optionalCustomer.ifPresent(
                 e -> {
                     log.error("Customer by national ID : " + customer.getNationalId() + "already exists");
-                    throw new AlreadyExistsException(Customer.class.getName(),customer.getNationalId(),"Customer already exists");
+                    throw new AlreadyExistsException(Customer.class.getSimpleName(),customer.getNationalId(),"Customer already exists");
                 });
         return customerRepository.save(creditScoreService.setCustomerCreditScore(customer));
     }
 
 
     @Override
-    public Customer updateCustomerByNationalId(Customer updatedCustomer) {
-        getCustomerByNationalId(updatedCustomer.getNationalId());
+    public Customer updateCustomerByNationalId(Customer updated) {
+        Customer customer = getCustomerByNationalId(updated.getNationalId());
+        updated.setCreditScore(customer.getCreditScore());
+        updated.setCreditApplications(customer.getCreditApplications());
 
-        return customerRepository.save(updatedCustomer);
+        return customerRepository.save(updated);
 
     }
 
-//    @Transactional
-//    @Override
-//    public void deleteCustomerByNationalId(String nationalId) {
-//        getCustomerByNationalId(nationalId);
-//       customerRepository.deleteCustomerByNationalId(nationalId);
-//    }
 
     @Override
     public void deleteCustomerByNationalId(String nationalId) {
-        Customer customerByNationalId = getCustomerByNationalId(nationalId);
-        customerRepository.delete(customerByNationalId);
+        customerRepository.delete(getCustomerByNationalId(nationalId));
     }
 }
 
