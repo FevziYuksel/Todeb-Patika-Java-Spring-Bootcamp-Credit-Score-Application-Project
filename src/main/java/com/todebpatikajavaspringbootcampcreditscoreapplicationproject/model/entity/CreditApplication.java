@@ -2,6 +2,7 @@ package com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.ent
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.enums.ApplicationStatus;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.enums.CreditResult;
 import lombok.AllArgsConstructor;
@@ -11,8 +12,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,26 +27,25 @@ import java.time.LocalDate;
 @Table(name = "credit_application")
 public class CreditApplication {
 
-//    @Transient
-//    @Enumerated(EnumType.ORDINAL)
-//    private CreditMultiplier creditMultiplier;
-
-//    @Transient
-//    private final static int CREDIT_MULTIPLIER = 4;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "application_id", updatable = false, nullable = false)
     private Long id;
 
 
+//    @Column(name = "national_id", length = 11, updatable = false, nullable = false)
+//    @NotBlank(message = "national ID can not be left blank")
+//    @Pattern(regexp = "[1-9][0-9]{10}") //    @Pattern(regexp = "[1-9]\\d{10}")
+//    private String nationalId;
+
+
     @CreationTimestamp
-    @JsonFormat( pattern = "dd-MM-yyyy" )
-    @Column(name="application_date", updatable = false, nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @Column(name = "application_date", updatable = false, nullable = false)
     private LocalDate applicationDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "is_application_approved")
+    @Column(name = "application_approval")
     private CreditResult creditResult;
 
     @Column(name = "credit_limit")
@@ -53,13 +56,16 @@ public class CreditApplication {
     private ApplicationStatus applicationStatus;
 
 
-//    @Transient
     @NotNull(message = "Customer National id can not be null")
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_national_id",referencedColumnName = "national_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_national_id", referencedColumnName = "national_id")
     private Customer customer;
 
-//    @OneToOne approvedCredits ??
+
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Credit credit;
+
 
 }
