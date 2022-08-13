@@ -21,7 +21,7 @@ public class NotificationService implements INotificationService {
         String message = String.format("The Application of Customer by national ID: %s is %s ",nationalId,creditResult.toString().toLowerCase(Locale.ROOT));
 
         if(creditResult.getIsApproved())
-            message += String.format("\nCredit limit is %f",creditLimit);
+            message += String.format("\nCredit limit is %.2f",creditLimit);
 
         log.info(message);
 
