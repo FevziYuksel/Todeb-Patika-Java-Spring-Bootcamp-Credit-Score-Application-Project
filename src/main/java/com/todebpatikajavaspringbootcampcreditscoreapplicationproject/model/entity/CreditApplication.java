@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -42,7 +43,7 @@ public class CreditApplication {
     @CreationTimestamp
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Column(name = "application_date", updatable = false, nullable = false)
-    private LocalDate applicationDate;
+    private Date applicationDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "application_approval")
@@ -56,7 +57,7 @@ public class CreditApplication {
     private ApplicationStatus applicationStatus;
 
 
-    @NotNull(message = "Customer National id can not be null")
+    @NotNull(message = "National id can not be null")
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_national_id", referencedColumnName = "national_id")

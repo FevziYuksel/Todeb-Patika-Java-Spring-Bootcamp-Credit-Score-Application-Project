@@ -51,7 +51,5 @@ public class User {
             @JoinColumn(name = "user_id")}, inverseJoinColumns = {
             @JoinColumn(name = "role_id")})
     public Set<Role> roles;
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    private List<Role> roles;
 
 }

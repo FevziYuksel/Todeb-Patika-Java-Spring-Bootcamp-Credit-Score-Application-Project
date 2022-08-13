@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -39,7 +40,7 @@ public class Credit implements Serializable {
     @CreationTimestamp
     @JsonFormat( pattern = "dd-MM-yyyy" )
     @Column(name="approbation_date", updatable = false, nullable = false)
-    private LocalDate applicationDate;
+    private Date applicationDate;
 
 
     @Column(name = "credit_limit")

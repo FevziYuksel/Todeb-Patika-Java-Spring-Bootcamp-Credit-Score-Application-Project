@@ -15,6 +15,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 
@@ -46,7 +47,7 @@ public class Customer implements Serializable {
     @CreationTimestamp
     @JsonFormat( pattern = "dd-MM-yyyy" )
     @Column(name="creation_date", updatable = false, nullable = false)
-    private LocalDate applicationDate;
+    private Date applicationDate;
 
     @Column(name = "monthly_income")
     @NotNull(message = "Income can not be null")
