@@ -11,6 +11,7 @@ import java.util.Locale;
 @Service
 @Slf4j
 public class NotificationService implements INotificationService {
+
     @Override
     public String sendNotificationMessage(CreditApplication application) {
 

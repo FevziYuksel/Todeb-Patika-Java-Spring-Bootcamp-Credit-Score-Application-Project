@@ -6,7 +6,6 @@ import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.requ
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.requestDto.UserLoginDto;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,10 +28,8 @@ public class UserController {
     private final UserService userService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_CLIENT')")
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @GetMapping
     public List<User> getAllUsers() {
-        // TODO : Need to convert User -> UserDataDTO to hide special fields like password
         return userService.getAll();
     }
 
@@ -47,7 +44,6 @@ public class UserController {
         user.setUsername(userDataDto.getUsername());
         user.setEmail(userDataDto.getEmail());
         user.setPassword(userDataDto.getPassword());
-//        return userService.signup(modelMapper.map(user, User.class));
         return userService.signup(user, false);
     }
 
@@ -58,10 +54,6 @@ public class UserController {
         return username;
     }
 
-//    @GetMapping(value = "/me")
-//    public UserResponseDTO whoami(HttpServletRequest req) {
-//
-//        return modelMapper.map(userService.whoami(req), UserResponseDTO.class);
-//    }
+
 
 }

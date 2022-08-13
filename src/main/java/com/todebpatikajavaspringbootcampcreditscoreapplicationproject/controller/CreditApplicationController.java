@@ -9,6 +9,7 @@ import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.requ
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.requestDto.CustomerRequestDto;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.responseDto.CreditApplicationResponseDto;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.responseDto.CustomerResponseDto;
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.ICreditApplicationService;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.impl.CreditApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ import java.util.List;
 @RequestMapping("/v1/application")
 public class CreditApplicationController {
 
-    private final CreditApplicationService creditApplicationService;
+    private final ICreditApplicationService creditApplicationService;
 
     private final CreditApplicationRequestMapper creditApplicationRequestMapper;
 

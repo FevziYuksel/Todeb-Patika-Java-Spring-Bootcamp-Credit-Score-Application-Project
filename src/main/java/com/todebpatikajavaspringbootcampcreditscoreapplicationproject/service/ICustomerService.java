@@ -1,8 +1,6 @@
 package com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service;
 
-import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.requestDto.CustomerRequestDto;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.entity.Customer;
-import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.responseDto.CustomerResponseDto;
 
 import java.util.List;
 
@@ -14,7 +12,7 @@ public interface ICustomerService {
 
     Customer createCustomer(Customer customer);
 
-    Customer updateCustomerByNationalId(Customer customer );
+    Customer updateCustomer(Customer customer );
 
     void deleteCustomerByNationalId(String nationalId);
 }

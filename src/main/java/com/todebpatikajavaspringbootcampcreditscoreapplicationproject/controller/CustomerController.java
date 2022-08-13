@@ -5,11 +5,11 @@ import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.mapp
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.mapper.CustomerResponseMapper;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.requestDto.CustomerRequestDto;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.responseDto.CustomerResponseDto;
-import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.impl.CustomerService;
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.ICustomerService;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,19 +23,13 @@ import java.util.List;
 @RequestMapping("/v1/customer")
 public class CustomerController {
 
-    /**Valid functionality ????
-     * Create best way??
-     Return CustomerResponse ????
-     Throw exception from controller as much as possible ??
-     Map DTOs on Controller
-     Service business logic
-     */
 
-    private final CustomerService customerService;  //Interface vs Class
+    private final ICustomerService customerService;  //Interface vs Class
     private final CustomerRequestMapper customerRequestMapper;
     private final CustomerResponseMapper customerResponseMapper;
 
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public
     ResponseEntity<List<CustomerResponseDto>> getAllCustomers() {
@@ -59,7 +53,7 @@ public class CustomerController {
     }
     @PutMapping
     public ResponseEntity<CustomerResponseDto> updateCustomerByNationalId(@Valid @RequestBody CustomerRequestDto customerDto ){
-        Customer newCustomer = customerService.updateCustomerByNationalId(customerRequestMapper.toEntity(customerDto));
+        Customer newCustomer = customerService.updateCustomer(customerRequestMapper.toEntity(customerDto));
         return ResponseEntity.ok(customerResponseMapper.toDTO(newCustomer));
     }
     @DeleteMapping("/{nationalId}")

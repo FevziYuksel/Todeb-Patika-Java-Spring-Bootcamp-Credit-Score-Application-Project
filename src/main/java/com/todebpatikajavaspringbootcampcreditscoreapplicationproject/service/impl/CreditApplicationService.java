@@ -9,6 +9,9 @@ import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.enum
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.enums.ApplicationStatus;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.repository.CreditApplicationRepository;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.ICreditApplicationService;
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.ICreditService;
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.ICustomerService;
+import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.service.INotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,9 +24,9 @@ import java.util.List;
 public class CreditApplicationService implements ICreditApplicationService {
 
     private final CreditApplicationRepository creditApplicationRepository;
-    private final CustomerService customerService;
-    private final CreditService creditService;
-    private final NotificationService notificationService;
+    private final ICustomerService customerService;
+    private final ICreditService creditService;
+    private final INotificationService notificationService;
 
     //CONSTANT VALUES
     private final static Integer CREDIT_MULTIPLIER = 4;
@@ -55,19 +58,10 @@ public class CreditApplicationService implements ICreditApplicationService {
                         creditApplication -> creditApplication.getApplicationStatus().getIsActive()).findAny().orElseThrow(
                         () -> new NotFoundException(CreditApplication.class.getSimpleName(), nationalId ,"don't have any active application")
                 );
-//        return creditApplicationRepository.findCreditApplicationByNationalIdAndApplicationStatusIsActive(nationalId).orElseThrow(
-//                () -> new NotFoundException(CreditApplication.class.getName(), " by national id " + nationalId + "don't have any active application")
-//        );
 
     }
-
-    //isThis ???
-    //Send object reference
-    //to Send only related fields
     @Override
     public CreditApplication createCreditApplication(String nationalId, CreditApplication creditApplication) {
-
-
 
         Customer customer = customerService.getCustomerByNationalId(nationalId);
 
@@ -90,24 +84,11 @@ public class CreditApplicationService implements ICreditApplicationService {
 
     }
 
-    @Override
-    public CreditApplication updateCreditApplication(String nationalId,CreditApplication creditApplication) {
-
-        cancelCreditApplication(nationalId);
-
-        return createCreditApplication(nationalId,creditApplication);
-
-    }
-
     private boolean hasAnyActiveApplication(Customer customer){
         return customer.getCreditApplications().stream().anyMatch(creditApplication -> creditApplication.getApplicationStatus().getIsActive());
 
     }
 
-    //Split enums
-    //Split them to isThis etc or setThis etc ????
-    //Static enum variable inside
-    //Create credit later switch application statue or keep both active to check whether user has any application
     private void calculateCreditLimit(Customer customer, CreditApplication creditApplication) {
 
         creditApplication.setApplicationStatus(ApplicationStatus.ACTIVE);
@@ -116,11 +97,8 @@ public class CreditApplicationService implements ICreditApplicationService {
         Integer customerCreditScore = customer.getCreditScore();
         Double customerMonthlyIncome = customer.getMonthlyIncome();
 
-//        boolean creditScoreCondition =
-
         if (customerCreditScore < LOWER_CREDIT_SCORE_LIMIT) {
             creditApplication.setCreditLimit(ZERO_CREDIT_LIMIT);
-            creditApplication.setApplicationStatus(ApplicationStatus.PASSIVE);
             creditApplication.setCreditResult(CreditResult.REJECTED);
         }
 
@@ -134,6 +112,14 @@ public class CreditApplicationService implements ICreditApplicationService {
         else if (customerCreditScore >= HIGHER_CREDIT_SCORE_LIMIT) {
             creditApplication.setCreditLimit(customerMonthlyIncome * CREDIT_MULTIPLIER);
         }
+
+    }
+    @Override
+    public CreditApplication updateCreditApplication(String nationalId,CreditApplication creditApplication) {
+
+        cancelCreditApplication(nationalId);
+
+        return createCreditApplication(nationalId,creditApplication);
 
     }
     @Override

@@ -17,7 +17,6 @@ public class CreditService implements ICreditService {
 
     @Override
     public Credit createCredit(CreditApplication creditApplication) {
-        //add duplicated check and if there is an active application
 
         Credit credit = new Credit();
         credit.setCreditLimit(creditApplication.getCreditLimit());

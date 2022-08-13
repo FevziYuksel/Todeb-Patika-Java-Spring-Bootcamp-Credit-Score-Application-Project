@@ -25,7 +25,7 @@ public class CustomerService implements ICustomerService {
 
     private final CustomerRepository customerRepository;
 
-    private final CreditScoreService creditScoreService;
+    private final ICreditScoreService creditScoreService;
 
 
     //Pagination ? //Carry empty check to controller
@@ -65,7 +65,7 @@ public class CustomerService implements ICustomerService {
 
 
     @Override
-    public Customer updateCustomerByNationalId(Customer updated) {
+    public Customer updateCustomer(Customer updated) {
         Customer customer = getCustomerByNationalId(updated.getNationalId());
         updated.setCreditScore(customer.getCreditScore());
         updated.setCreditApplications(customer.getCreditApplications());
