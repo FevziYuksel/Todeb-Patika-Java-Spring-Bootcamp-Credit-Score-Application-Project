@@ -40,21 +40,21 @@ import static org.mockito.Mockito.when;
 class CreditApplicationServiceTest {
 
     @Mock
-    CreditApplicationRepository creditApplicationRepository;
+    private CreditApplicationRepository creditApplicationRepository;
     @Mock
-    ICustomerService customerService;
+    private ICustomerService customerService;
 
     @Mock
-    INotificationService notificationService;
+    private INotificationService notificationService;
 
     @Mock
-    ICreditScoreService creditScoreService;
+    private ICreditScoreService creditScoreService;
 
     @Mock
-    ICreditService creditService;
+    private ICreditService creditService;
 
     @InjectMocks
-    CreditApplicationService creditApplicationService;
+    private CreditApplicationService creditApplicationService;
 
     private final static Integer CREDIT_MULTIPLIER = 4;
 

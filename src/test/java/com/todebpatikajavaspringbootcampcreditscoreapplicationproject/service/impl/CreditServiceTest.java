@@ -27,10 +27,10 @@ import static org.mockito.Mockito.*;
 class CreditServiceTest {
 
     @Mock
-    CreditRepository creditRepository;
+    private CreditRepository creditRepository;
 
     @InjectMocks
-    CreditService creditService;
+    private CreditService creditService;
 
     @Test
     void createCredit() {

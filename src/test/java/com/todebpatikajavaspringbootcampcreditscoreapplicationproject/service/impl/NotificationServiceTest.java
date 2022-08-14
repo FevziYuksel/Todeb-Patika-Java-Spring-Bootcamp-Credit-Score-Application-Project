@@ -26,7 +26,7 @@ import static org.mockito.Mockito.*;
 class NotificationServiceTest {
 
     @InjectMocks
-    NotificationService notificationService;
+    private NotificationService notificationService;
 
 
     @Test

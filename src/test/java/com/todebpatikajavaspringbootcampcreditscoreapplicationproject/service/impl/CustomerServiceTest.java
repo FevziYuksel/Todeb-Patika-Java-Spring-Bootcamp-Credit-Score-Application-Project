@@ -27,20 +27,20 @@ import static org.mockito.Mockito.*;
 class CustomerServiceTest {
 
     @Mock
-    CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
     @Mock
-    ICreditScoreService creditScoreService;
+    private ICreditScoreService creditScoreService;
 
     @InjectMocks
-    CustomerService customerService;
+    private CustomerService customerService;
 
 
 
-    static Customer customer1;
-    static List<Customer> customerList;
+    private static Customer customer1;
+    private static List<Customer> customerList;
 
 
-    @BeforeAll //How to work ???
+    @BeforeAll
     static void setup() {
         customer1 = new Customer("22444863744","Fevzi","Yüksel",new Date(),1000.00,400, Gender.MALE,20,"5312513462","fevzi@gmail.com",null);
         Customer customer2 = new Customer("22455863744", "Ahmet", "Yılmaz", new Date(),1000.00,800,Gender.MALE,30,"5312523462", "ahmet@hotmail.com", null);
@@ -77,7 +77,9 @@ class CustomerServiceTest {
                     () -> assertEquals(expectedCustomer.getMonthlyIncome(), actualCustomer.getMonthlyIncome()),
                     () -> assertEquals(expectedCustomer.getGender(), actualCustomer.getGender()),
                     () -> assertEquals(expectedCustomer.getAge(), actualCustomer.getAge()),
-                    () -> assertEquals(expectedCustomer.getPhoneNo(), actualCustomer.getPhoneNo())
+                    () -> assertEquals(expectedCustomer.getPhoneNo(), actualCustomer.getPhoneNo()),
+                    () -> assertEquals(expectedCustomer.getCreditApplications(), actualCustomer.getCreditApplications()),
+                    () -> assertEquals(expectedCustomer.getCreditScore(), actualCustomer.getCreditScore())
             );
         }
     }
@@ -118,7 +120,9 @@ class CustomerServiceTest {
                 () -> assertEquals(expectedCustomer.getMonthlyIncome(), actualCustomer.getMonthlyIncome()),
                 () -> assertEquals(expectedCustomer.getGender(), actualCustomer.getGender()),
                 () -> assertEquals(expectedCustomer.getAge(), actualCustomer.getAge()),
-                () -> assertEquals(expectedCustomer.getPhoneNo(), actualCustomer.getPhoneNo())
+                () -> assertEquals(expectedCustomer.getPhoneNo(), actualCustomer.getPhoneNo()),
+                () -> assertEquals(expectedCustomer.getCreditApplications(), actualCustomer.getCreditApplications()),
+                () -> assertEquals(expectedCustomer.getCreditScore(), actualCustomer.getCreditScore())
         );
 
 
@@ -214,7 +218,9 @@ class CustomerServiceTest {
                 () -> assertEquals(expectedCustomer.getMonthlyIncome(), actualCustomer.getMonthlyIncome()),
                 () -> assertEquals(expectedCustomer.getGender(), actualCustomer.getGender()),
                 () -> assertEquals(expectedCustomer.getAge(), actualCustomer.getAge()),
-                () -> assertEquals(expectedCustomer.getPhoneNo(), actualCustomer.getPhoneNo())
+                () -> assertEquals(expectedCustomer.getPhoneNo(), actualCustomer.getPhoneNo()),
+                () -> assertEquals(expectedCustomer.getCreditApplications(), actualCustomer.getCreditApplications()),
+                () -> assertEquals(expectedCustomer.getCreditScore(), actualCustomer.getCreditScore())
         );
     }
 
