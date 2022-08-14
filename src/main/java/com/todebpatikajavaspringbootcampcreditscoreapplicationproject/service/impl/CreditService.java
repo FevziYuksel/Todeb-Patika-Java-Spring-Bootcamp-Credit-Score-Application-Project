@@ -14,7 +14,6 @@ public class CreditService implements ICreditService {
 
     private final CreditRepository creditRepository;
 
-
     @Override
     public Credit createCredit(CreditApplication creditApplication) {
 
@@ -24,5 +23,4 @@ public class CreditService implements ICreditService {
 
         return creditRepository.save(credit);
     }
-
 }
