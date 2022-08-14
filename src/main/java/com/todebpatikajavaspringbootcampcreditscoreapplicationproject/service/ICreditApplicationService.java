@@ -8,7 +8,7 @@ public interface ICreditApplicationService {
 
     List<CreditApplication> getAllCreditApplicationByCustomer (String nationalId);
 
-    CreditApplication getActiveCreditApplicationByCustomer (String nationalId); //checkCreditApplication //getByNationalId
+    CreditApplication getActiveCreditApplicationByCustomer (String nationalId);
 
     //Only allowed by Admin
     CreditApplication createCreditApplication(String nationalId, CreditApplication creditApplication);
@@ -16,10 +16,6 @@ public interface ICreditApplicationService {
     CreditApplication updateCreditApplication(String nationalId,CreditApplication creditApplication);
 
     CreditApplication cancelCreditApplication (String nationalId); //cancelByNationalId;
-
-//    String approveCreditApplication(String nationalId); //Change status field //Return credit
-//
-//    String rejectCreditApplication(String nationalId);
 
 
 //    void deleteCreditApplication(String nationalId );  //deleteByNationalId;

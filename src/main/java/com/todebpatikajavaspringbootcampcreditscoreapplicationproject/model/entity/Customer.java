@@ -3,10 +3,7 @@ package com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.ent
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.enums.Gender;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.validation.annotation.Validated;

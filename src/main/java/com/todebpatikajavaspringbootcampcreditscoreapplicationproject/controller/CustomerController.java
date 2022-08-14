@@ -24,7 +24,7 @@ import java.util.List;
 public class CustomerController {
 
 
-    private final ICustomerService customerService;  //Interface vs Class
+    private final ICustomerService customerService;
     private final CustomerRequestMapper customerRequestMapper;
     private final CustomerResponseMapper customerResponseMapper;
 

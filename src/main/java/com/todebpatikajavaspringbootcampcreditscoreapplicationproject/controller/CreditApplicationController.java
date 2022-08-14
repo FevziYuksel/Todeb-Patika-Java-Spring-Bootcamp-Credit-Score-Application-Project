@@ -40,7 +40,7 @@ public class CreditApplicationController {
         return ResponseEntity.ok(creditApplicationResponseMapper.toDTO(creditApplicationService.getAllCreditApplicationByCustomer(nationalId)));
 
     }
-    @GetMapping("active/{nationalId}")
+    @GetMapping("/active/{nationalId}")
     public ResponseEntity<CreditApplicationResponseDto> getActiveCreditApplicationByCustomer(@PathVariable @Pattern(regexp = "[1-9][0-9]{10}") String nationalId){
         return ResponseEntity.ok(creditApplicationResponseMapper.toDTO(creditApplicationService.getActiveCreditApplicationByCustomer(nationalId)));
     }
@@ -55,9 +55,8 @@ public class CreditApplicationController {
         CreditApplication creditApplication = creditApplicationService.updateCreditApplication(creditApplicationRequestDto.getNationalId(), creditApplicationRequestMapper.toEntity(creditApplicationRequestDto));
         return ResponseEntity.ok((creditApplicationResponseMapper.toDTO(creditApplication)));
     }
-    @DeleteMapping("{nationalId}")
+    @DeleteMapping("/{nationalId}")
     public ResponseEntity<CreditApplicationResponseDto> cancelCreditApplication(@PathVariable @Pattern(regexp = "[1-9][0-9]{10}") String nationalId){
-        ;
         return ResponseEntity.ok(creditApplicationResponseMapper.toDTO(creditApplicationService.cancelCreditApplication(nationalId)));
     }
 

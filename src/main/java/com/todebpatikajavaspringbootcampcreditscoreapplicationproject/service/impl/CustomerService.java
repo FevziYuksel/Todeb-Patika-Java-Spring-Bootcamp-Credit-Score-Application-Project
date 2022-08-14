@@ -29,7 +29,6 @@ public class CustomerService implements ICustomerService {
 
 
     //Pagination ? //Carry empty check to controller
-    //Admin
     @Override
     public List<Customer> getAllCustomers() {
         List<Customer> customerList = customerRepository.findAll();

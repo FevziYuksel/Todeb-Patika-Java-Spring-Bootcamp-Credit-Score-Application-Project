@@ -32,10 +32,6 @@ public class Credit implements Serializable {
     @Column(name = "credit_id", updatable = false, nullable = false)
     private Long id;
 
-//    @Column(name = "national_id", length = 11, updatable = false)
-//    @NotBlank(message = "national ID can not be left blank")
-//    @Pattern(regexp = "[1-9][0-9]{10}")
-//    private String nationalId;
 
     @CreationTimestamp
     @JsonFormat( pattern = "dd-MM-yyyy" )

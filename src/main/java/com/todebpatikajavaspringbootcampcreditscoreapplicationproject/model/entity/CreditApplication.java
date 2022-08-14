@@ -8,6 +8,7 @@ import com.todebpatikajavaspringbootcampcreditscoreapplicationproject.model.enum
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.validation.annotation.Validated;
 
@@ -32,12 +33,6 @@ public class CreditApplication {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "application_id", updatable = false, nullable = false)
     private Long id;
-
-
-//    @Column(name = "national_id", length = 11, updatable = false, nullable = false)
-//    @NotBlank(message = "national ID can not be left blank")
-//    @Pattern(regexp = "[1-9][0-9]{10}") //    @Pattern(regexp = "[1-9]\\d{10}")
-//    private String nationalId;
 
 
     @CreationTimestamp
