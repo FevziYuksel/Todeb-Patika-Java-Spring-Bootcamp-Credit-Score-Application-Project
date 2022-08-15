@@ -131,4 +131,4 @@ API documentation can be accessed via [Swagger UI](localhost:8050/swagger-ui/ind
 
 
  ## Database Design Architecture
-![Diagram](DatabaseDiagram.png)
+![Diagram](Database Design Architecture.png)
