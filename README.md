@@ -131,4 +131,4 @@ API documentation can be accessed via [Swagger UI](localhost:8050/swagger-ui/ind
 
 
  ## Database Design Architecture
-![Diagram](Database Design Architecture.png)
+![Diagram]([Database Design Architecture.png](https://github.com/FevziYuksel/Todeb-Patika-Java-Spring-Bootcamp-Credit-Score-Application-Project/blob/master/Database%20Design%20Architecture.png))
