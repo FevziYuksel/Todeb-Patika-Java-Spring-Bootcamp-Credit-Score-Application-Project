@@ -23,6 +23,8 @@ Application must obey these critiries.
 7. JUnit, Mockito (Unit Testing)
 8. Docker
 9. JSON Web Token (Spring security)
+10. Mapstruct
+11. SLF4J
 
 ## File Structure
 
@@ -110,7 +112,7 @@ Other endpoints can be reached from this link
 
 ## API Documentation
 
-API documentation can be accessed via ![Swagger UI](localhost:8050/swagger-ui/index.html)
+API documentation can be accessed via localhost:8050/swagger-ui/index.html
 
 ## Getting Started
 
