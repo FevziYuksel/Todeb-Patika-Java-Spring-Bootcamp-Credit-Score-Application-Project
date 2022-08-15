@@ -108,6 +108,44 @@ Other endpoints can be reached from this link
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/8288169938a24bbadcec?action=collection%2Fimport)
 
 
+## API Documentation
+
+API documentation can be accessed via [Swagger UI](localhost:8050/swagger-ui/index.html)
+## Getting Started
+
+The source code can be checked out to your local and then build and run the application either from your IDE after importing to it as a maven project, or just from a command line. Follow these steps for the command-line option:  
+
+### Prerequisites
+1. Java 8
+2. Maven 3
+3. Git
+4. PostgreSQL
+
+
+### Installing & Running
+
+#### Clone this repo into your local: 
+	
+```
+git clone https://github.com/FevziYuksel/Todeb-Patika-Java-Spring-Bootcamp-Credit-Score-Application-Project.git
+```
+
+####  Build using maven 
+	
+```
+mvn clean install
+```
+	
+#### Start the app
+	
+```
+mvn spring-boot:run
+```
+	
+#### Access the Home screen
+
+The application will be available at the URL: [Home](http://localhost:8050).
+
 ## Docker
 First you need to uncomment this line in application.properties;
 
@@ -124,11 +162,10 @@ Run application on docker
 docker compose up
 
 
-## API Documentation
 
-API documentation can be accessed via [Swagger UI](localhost:8050/swagger-ui/index.html) 
 
 
 
  ## Database Design Architecture
 ![Diagram]([Database Design Architecture.png](https://github.com/FevziYuksel/Todeb-Patika-Java-Spring-Bootcamp-Credit-Score-Application-Project/blob/master/Database%20Design%20Architecture.png))
+
