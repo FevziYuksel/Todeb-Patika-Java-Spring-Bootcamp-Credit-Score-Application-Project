@@ -130,4 +130,4 @@ API documentation can be accessed via [Swagger UI](localhost:8050/swagger-ui/ind
 
 
 
- <p align="center"><img src="./assets/img/Database Design Architecture.png" alt="Project Branding Image"></a></p>
+ <p align="center"><img src="./assets/img/Database Design Architecture.png"></a></p>
