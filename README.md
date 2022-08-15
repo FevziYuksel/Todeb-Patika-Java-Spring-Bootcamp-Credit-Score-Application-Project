@@ -162,10 +162,20 @@ Run application on docker
 docker compose up
 
 
+## Kafka
+Exposing the Costumer as a service to be used by another micro-service. [Kafka Consumer Project](https://github.com/FevziYuksel/Todeb-Credit-Kafka-Consumer).
+When Credit Application approved, credit will produce and send to consumer
 
+Start Kafka-server and ZooKeeper after installing it on your machine
+### It doesn't working yet When receive the message throw Consumer exception. 
+
+
+
+Kafka consumer application intended to consume credits from ![Credit application](https://github.com/FevziYuksel/Todeb-Patika-Java-Spring-Bootcamp-Credit-Score-Application-Project)
+When receive the message throw Consumer exception. 
 
 
 
  ## Database Design Architecture
-![Diagram]([Database Design Architecture.png](https://github.com/FevziYuksel/Todeb-Patika-Java-Spring-Bootcamp-Credit-Score-Application-Project/blob/master/Database%20Design%20Architecture.png))
+![Diagram](https://github.com/FevziYuksel/Todeb-Patika-Java-Spring-Bootcamp-Credit-Score-Application-Project/blob/master/Database%20Design%20Architecture.png))
 
