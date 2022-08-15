@@ -110,7 +110,7 @@ Other endpoints can be reached from this link
 
 ## API Documentation
 
-API documentation can be accessed via [Swagger UI](localhost:8050/swagger-ui/index.html)
+API documentation can be accessed via ![Swagger UI](localhost:8050/swagger-ui/index.html)
 
 ## Getting Started
 
