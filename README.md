@@ -111,6 +111,7 @@ Other endpoints can be reached from this link
 ## API Documentation
 
 API documentation can be accessed via [Swagger UI](localhost:8050/swagger-ui/index.html)
+
 ## Getting Started
 
 The source code can be checked out to your local and then build and run the application either from your IDE after importing to it as a maven project, or just from a command line. Follow these steps for the command-line option:  
@@ -169,6 +170,36 @@ When Credit Application approved, credit will produce and send to consumer
 Start Kafka-server and ZooKeeper after installing it on your machine
 
 ### It doesn't working yet When receive the message throw Consumer exception. When receive the message throw Consumer exception. 
+
+## Running the Test Cases
+
+Test cases for this project:
+
+[CustomerControllerTest.java](src/test/java/com/todebpatikajavaspringbootcampcreditscoreapplicationproject/controller/CustomerControllerTest.java),
+
+[CreditApplicationControllerTest.java](src/test/java/com/todebpatikajavaspringbootcampcreditscoreapplicationproject/controller/CreditApplicationControllerTest.java)
+
+[CustomerServiceTest.java](src/test/java/com/todebpatikajavaspringbootcampcreditscoreapplicationproject/service/impl/CustomerServiceTest.java)
+
+[CreditApplicationTest.java](src/test/java/com/todebpatikajavaspringbootcampcreditscoreapplicationproject/service/impl/CreditApplicationServiceTest.java)
+
+[CreditServiceTest](src/test/java/com/todebpatikajavaspringbootcampcreditscoreapplicationproject/service/impl/CreditServiceTest.java)
+
+[NotificationServiceTest](src/test/java/com/todebpatikajavaspringbootcampcreditscoreapplicationproject/service/impl/NotificationServiceTest.java)
+
+You can run it either from:
+
+- Command line
+
+```
+mvn test
+```
+
+- Your IDE
+
+
+	Right click on this file and "Run As JUnit Testcase"  
+
 
 
 
