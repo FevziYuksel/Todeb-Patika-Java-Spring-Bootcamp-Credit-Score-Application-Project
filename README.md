@@ -206,5 +206,5 @@ mvn test
 
 
  ## Database Design Architecture
-![Diagram](https://github.com/FevziYuksel/Todeb-Patika-Java-Spring-Bootcamp-Credit-Score-Application-Project/blob/master/Database%20Design%20Architecture.png))
+![Diagram](https://github.com/FevziYuksel/Todeb-Patika-Java-Spring-Bootcamp-Credit-Score-Application-Project/blob/master/Database%20Design%20Architecture.png)
 
